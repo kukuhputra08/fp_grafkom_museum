@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Museum Virtual</title>
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <!-- HUD saat menjelajah -->
+    <div id="hud" class="hidden">
+      <div id="crosshair"></div>
+      <div id="prompt" class="hidden"></div>
+      <div id="help">
+        <span><b>W A S D</b> jalan</span>
+        <span><b>Mouse</b> lihat</span>
+        <span><b>Shift</b> lari</span>
+        <span><b>E</b> info objek</span>
+        <span><b>1 / 2 / 3</b> solid · wireframe · point</span>
+        <span><b>L</b> semua lampu</span>
+        <span><b>Z</b> lorong · <b>X</b> dinding · <b>F</b> lampu objek</span>
+        <span><b>Esc</b> jeda</span>
+      </div>
+    </div>
+
+    <!-- Panel informasi objek -->
+    <aside id="panel" class="hidden">
+      <h2 id="pName"></h2>
+      <p id="pOrigin"></p>
+      <p id="pDesc"></p>
+      <h3>Representasi 3D</h3>
+      <dl id="pStats"></dl>
+      <div id="pModes">
+        <button data-mode="solid"><kbd>1</kbd> Solid</button>
+        <button data-mode="wire"><kbd>2</kbd> Wireframe</button>
+        <button data-mode="point"><kbd>3</kbd> Point Cloud</button>
+      </div>
+      <p class="hint">Tekan <kbd>E</kbd> untuk menutup panel</p>
+    </aside>
+
+    <!-- Saklar lampu: bisa diklik saat jeda, jadi penunjuk status saat menjelajah -->
+    <aside id="lights">
+      <h3>Saklar Lampu</h3>
+      <div id="lampMaster">
+        <button id="allOn" type="button">Nyalakan semua</button>
+        <button id="allOff" type="button">Matikan semua</button>
+      </div>
+      <ul id="lampList"></ul>
+      <p class="hint" id="lampHint">
+        <kbd>L</kbd> semua · <kbd>Z</kbd> lorong · <kbd>X</kbd> dinding<br />
+        <kbd>F</kbd> lampu objek terdekat
+      </p>
+    </aside>
+
+    <!-- Layar awal / jeda -->
+    <div id="overlay">
+      <div class="card">
+        <p class="eyebrow">FP Grafika Komputer</p>
+        <h1>Museum <br />Virtual</h1>
+        <p class="lead">Jelajahi museum, dekati objek, lalu lihat representasi 3D nya: solid, wireframe, dan point cloud.</p>
+        <div id="loader">
+          <div id="bar"><div id="barFill"></div></div>
+          <p id="loadText">Menyiapkan museum…</p>
+        </div>
+        <button id="startBtn" disabled>Mulai Jelajah</button>
+      </div>
+    </div>
+  </body>
+</html>

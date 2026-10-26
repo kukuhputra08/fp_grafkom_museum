@@ -1,0 +1,75 @@
+:root {
+  --burgundy: #7a1f36;
+  --gold: #c8963e;
+  --cream: #f6efe6;
+  --ink: #1e1a1d;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #1b1518; color: var(--cream); font-family: system-ui, 'Segoe UI', Roboto, sans-serif; }
+canvas { display: block; }
+.hidden { display: none !important; }
+kbd { background: rgba(255,255,255,.14); border-radius: 4px; padding: 0 .4em; font: inherit; font-size: .85em; }
+
+/* Overlay awal / jeda */
+#overlay { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; background: rgba(20, 12, 16, .82); backdrop-filter: blur(4px); transition: background .25s; }
+#overlay .card { transition: opacity .25s; }
+/* Kursor di atas panel saklar: layar dibuat transparan untuk melihat efek lampu */
+#overlay.peek { background: rgba(20, 12, 16, .1); backdrop-filter: none; }
+#overlay.peek .card { opacity: 0; pointer-events: none; }
+.card { width: min(520px, 92vw); padding: 2rem 2.2rem; border-radius: 18px; background: #26191e; border: 1px solid rgba(200,150,62,.4); box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+.eyebrow { margin: 0 0 .4rem; color: var(--gold); letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; }
+h1 { margin: 0 0 .8rem; font-family: Georgia, 'Times New Roman', serif; font-size: 2.1rem; line-height: 1.15; }
+.lead { margin: 0 0 1.2rem; color: #e2d6c8; line-height: 1.5; }
+#bar { height: 8px; border-radius: 99px; background: rgba(255,255,255,.12); overflow: hidden; }
+#barFill { height: 100%; width: 0; background: var(--gold); transition: width .2s; }
+#loadText { margin: .5rem 0 1.1rem; font-size: .9rem; color: #cdbfae; }
+#startBtn { width: 100%; padding: .85rem 1rem; border: 0; border-radius: 12px; background: var(--burgundy); color: #fff; font-size: 1.05rem; font-weight: 600; cursor: pointer; }
+#startBtn:hover:not(:disabled) { background: #93284a; }
+#startBtn:disabled { opacity: .45; cursor: wait; }
+.small { margin: .9rem 0 0; font-size: .82rem; color: #b9ab99; }
+
+/* HUD */
+#hud { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
+#crosshair { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: rgba(255,255,255,.75); box-shadow: 0 0 0 1px rgba(0,0,0,.4); }
+#prompt { position: absolute; left: 50%; bottom: 14%; transform: translateX(-50%); padding: .55rem 1.1rem; border-radius: 99px; background: rgba(30,20,24,.85); border: 1px solid var(--gold); font-weight: 600; }
+#help { position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%); display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; justify-content: center; max-width: 94vw; padding: .45rem .9rem; border-radius: 10px; background: rgba(20,12,16,.6); font-size: .78rem; color: #d8cbb9; }
+#help b { color: var(--cream); }
+
+/* Panel info */
+#panel { position: fixed; z-index: 30; right: 1.2rem; top: 1.2rem; width: min(340px, 90vw); max-height: calc(100vh - 2.4rem); overflow: auto; padding: 1.3rem 1.4rem; border-radius: 16px; background: rgba(38, 25, 30, .94); border: 1px solid rgba(200,150,62,.45); box-shadow: 0 14px 40px rgba(0,0,0,.45); }
+#panel h2 { margin: 0; font-family: Georgia, serif; font-size: 1.5rem; }
+#pOrigin { margin: .15rem 0 .7rem; color: var(--gold); font-size: .9rem; }
+#pDesc { margin: 0 0 1rem; line-height: 1.5; font-size: .93rem; color: #e6dacb; }
+#panel h3 { margin: 0 0 .5rem; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
+#pStats { margin: 0 0 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: .45rem; }
+#pStats > div { padding: .45rem .6rem; border-radius: 8px; background: rgba(255,255,255,.06); }
+#pStats dt { font-size: .72rem; color: #bfae98; }
+#pStats dd { margin: 0; font-size: 1.05rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+#pStats .err { grid-column: 1 / -1; color: #ff9d9d; font-size: .9rem; }
+#pModes { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; }
+#pModes button { padding: .55rem .3rem; border-radius: 10px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06); color: var(--cream); font-size: .82rem; cursor: pointer; }
+#pModes button.active { background: var(--burgundy); border-color: var(--gold); }
+.hint { margin: .9rem 0 0; font-size: .78rem; color: #b9ab99; }
+
+/* Saklar lampu */
+#lights { position: fixed; z-index: 30; left: 1.2rem; top: 1.2rem; width: 272px; padding: 1rem 1.1rem; border-radius: 16px; background: rgba(38, 25, 30, .94); border: 1px solid rgba(200,150,62,.45); box-shadow: 0 14px 40px rgba(0,0,0,.45); transition: opacity .2s; }
+#lights h3 { margin: 0 0 .7rem; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
+#lampMaster { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; margin-bottom: .7rem; }
+#lampMaster button { white-space: nowrap; padding: .5rem .2rem; border-radius: 10px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06); color: var(--cream); font-size: .76rem; cursor: pointer; }
+#lampMaster button:hover { background: rgba(255,255,255,.14); }
+#lampList { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; }
+.lamp { width: 100%; display: flex; align-items: center; gap: .6rem; padding: .45rem .6rem; border-radius: 9px; border: 1px solid transparent; background: rgba(255,255,255,.05); color: #bfae98; font-size: .85rem; text-align: left; cursor: pointer; }
+.lamp:hover { background: rgba(255,255,255,.12); }
+.lamp.on { color: var(--cream); }
+.lamp .lname { flex: 1; }
+.lamp kbd { font-size: .72rem; opacity: .75; }
+.led { flex: none; width: .7rem; height: .7rem; border-radius: 50%; background: #4a403c; box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); transition: background .2s, box-shadow .2s; }
+.lamp.on .led { background: #ffd27a; box-shadow: 0 0 8px 2px rgba(255,200,110,.65); }
+#lights .hint { margin: .8rem 0 0; line-height: 1.6; }
+/* Saat menjelajah: hanya penunjuk status, tidak bisa diklik (kursor terkunci) */
+#lights.compact { pointer-events: none; opacity: .8; padding: .45rem .5rem; width: 205px; border-radius: 12px; background: rgba(30, 20, 24, .7); box-shadow: none; }
+#lights.compact #lampMaster, #lights.compact #lampHint, #lights.compact h3 { display: none; }
+#lights.compact #lampList { gap: 0; }
+#lights.compact .lamp { padding: .18rem .45rem; font-size: .74rem; background: transparent; }
+
+@media (max-width: 700px) { #help, #lights.compact { display: none; } }
